@@ -1,0 +1,112 @@
+import {
+    excute
+} from './jsontoy-core.js';
+
+import {
+    readFile
+} from 'fs';
+
+
+// readFile('examples/hello.json', (err, data) => {
+//     console.log(JSON.parse(data))
+//     if (err) {
+//         console.error(err);
+//         return;
+//     }
+//     excute(data)
+// })
+
+
+const code = [{
+    "opCode": "setVar",
+    "name": "args",
+    "namespace": -1,
+    "value": ["Hello, World"]
+}, {
+    "opCode": "callFn",
+    "name": "console.log",
+    "namespace": 0
+}, {
+    "opCode": "setVar",
+    "name": "add3()",
+    "namespace": -1,
+    "value": {
+        "opCode": "defineFn",
+        "body": [{
+            "opCode": "setVar",
+            "name": "args",
+            "namespace": -1,
+            "value": [{
+                    "opCode": "getVar",
+                    "name": "args",
+                    "namespace": -2
+                },
+                3
+            ]
+        }, {
+            "opCode": "callFn",
+            "name": "add",
+            "namespace": 0
+        }, {
+            "opCode": "setVar",
+            "name": "return",
+            "namespace": -2,
+            "value": {
+                "opCode": "getVar",
+                "name": "return",
+                "namespace": -1
+            }
+        }]
+    }
+}, {
+    "opCode": "setVar",
+    "name": "A",
+    "namespace": -1,
+    "value": 10
+}, {
+    "opCode": "setVar",
+    "name": "args",
+    "namespace": -1,
+    "value": {
+        "opCode": "getVar",
+        "name": "A",
+        "namespace": -1
+    }
+}, {
+    "opCode": "callFn",
+    "name": "add3()",
+    "namespace": -1
+}, {
+    "opCode": "setVar",
+    "name": "B",
+    "namespace": -1,
+    "value": {
+        "opCode": "getVar",
+        "name": "return",
+        "namespace": -1
+    }
+}, {
+    "opCode": "setVar",
+    "name": "args",
+    "namespace": -1,
+    "value": [
+        "A is ",
+        {
+            "opCode": "getVar",
+            "name": "A",
+            "namespace": -1
+        },
+        ", B is ", {
+            "opCode": "getVar",
+            "name": "B",
+            "namespace": -1
+        }
+    ]
+}, {
+    "opCode": "callFn",
+    "name": "console.log",
+    "namespace": 0
+}]
+
+
+excute(code)
