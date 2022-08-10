@@ -6,107 +6,72 @@ import {
     readFile
 } from 'fs';
 
+import {
+    argv,
+    exit
+} from 'process';
 
-// readFile('examples/hello.json', (err, data) => {
-//     console.log(JSON.parse(data))
-//     if (err) {
-//         console.error(err);
-//         return;
-//     }
-//     excute(data)
-// })
+const HELP = `help
+---------------------
+`;
 
+function printHelp() {
+    console.log(HELP);
+}
 
-const code = [{
-    "opCode": "setVar",
-    "name": "args",
-    "namespace": -1,
-    "value": ["Hello, World"]
-}, {
-    "opCode": "callFn",
-    "name": "console.log",
-    "namespace": 0
-}, {
-    "opCode": "setVar",
-    "name": "add3()",
-    "namespace": -1,
-    "value": {
-        "opCode": "defineFn",
-        "body": [{
-            "opCode": "setVar",
-            "name": "args",
-            "namespace": -1,
-            "value": [{
-                    "opCode": "getVar",
-                    "name": "args",
-                    "namespace": -2
-                },
-                3
-            ]
-        }, {
-            "opCode": "callFn",
-            "name": "add",
-            "namespace": 0
-        }, {
-            "opCode": "setVar",
-            "name": "return",
-            "namespace": -2,
-            "value": {
-                "opCode": "getVar",
-                "name": "return",
-                "namespace": -1
+if (argv.length <= 2) {
+    printHelp();
+    exit(0);
+}
+
+const cli_arg = {
+    help: false,
+    import: [],
+    file: undefined,
+}
+
+function parseArgv(argv) {
+    let i = 2
+    while (i < argv.length) {
+        if (argv[i] === "--help") {
+            cli_arg = true;
+        } else if (argv[i] == "--import") {
+            if (++i >= argv.length) {
+                console.error("missing import name.");
+                exit(1);
             }
-        }]
-    }
-}, {
-    "opCode": "setVar",
-    "name": "A",
-    "namespace": -1,
-    "value": 10
-}, {
-    "opCode": "setVar",
-    "name": "args",
-    "namespace": -1,
-    "value": {
-        "opCode": "getVar",
-        "name": "A",
-        "namespace": -1
-    }
-}, {
-    "opCode": "callFn",
-    "name": "add3()",
-    "namespace": -1
-}, {
-    "opCode": "setVar",
-    "name": "B",
-    "namespace": -1,
-    "value": {
-        "opCode": "getVar",
-        "name": "return",
-        "namespace": -1
-    }
-}, {
-    "opCode": "setVar",
-    "name": "args",
-    "namespace": -1,
-    "value": [
-        "A is ",
-        {
-            "opCode": "getVar",
-            "name": "A",
-            "namespace": -1
-        },
-        ", B is ", {
-            "opCode": "getVar",
-            "name": "B",
-            "namespace": -1
+            cli_arg.import.push(argv[i + 1])
+        } else {
+            cli_arg.file = cli_arg.file ?? argv[i];
         }
-    ]
-}, {
-    "opCode": "callFn",
-    "name": "console.log",
-    "namespace": 0
-}]
+        i += 1;
+    }
+}
 
+function loadImport(imports) {
 
-excute(code)
+}
+
+parseArgv(argv);
+
+if (!cli_arg.file) {
+    console.warn("Missing File.");
+    printHelp();
+    exit();
+}
+
+if (cli_arg.help) {
+    printHelp();
+    exit();
+}
+
+loadImport(cli_arg.import);
+
+readFile(cli_arg.file, (err, data) => {
+    const code = JSON.parse(data)
+    if (err) {
+        console.error(err);
+        return;
+    }
+    excute(code)
+})
