@@ -1,0 +1,12 @@
+[
+    {
+        "opCode": "setVar",
+        "name": "args",
+        "namespace": -1,
+        "value": ["Hello, World"]
+    }, {
+        "opCode": "callFn",
+        "name": "console.log",
+        "namespace": 0
+    }
+]

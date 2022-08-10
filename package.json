@@ -1,0 +1,24 @@
+{
+  "name": "jsontoy-lang",
+  "version": "1.0.0",
+  "description": "A simple programming language like json.",
+  "main": "src/jsontoy-run.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lagagain/jsontoy-lang.git"
+  },
+  "keywords": [
+    "jsontoy-lang",
+    "programming",
+    "language"
+  ],
+  "author": "lagagain",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/lagagain/jsontoy-lang/issues"
+  },
+  "homepage": "https://github.com/lagagain/jsontoy-lang#readme"
+}
