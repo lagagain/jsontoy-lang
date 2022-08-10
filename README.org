@@ -1,0 +1,23 @@
+* Quick Start
+
+  #+begin_src bash :results output
+    node . ./examples/hello.json
+  #+end_src
+
+  #+RESULTS:
+  : Hello, World
+
+
+  
+** Install & Run
+
+   #+begin_center
+   WARRNING: Still not working.
+   #+end_center
+   
+   #+begin_src bash :results none
+     npm i -g .
+     jsontoy-run ./examples/hello.json
+   #+end_src
+
+
